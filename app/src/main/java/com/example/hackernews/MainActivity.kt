@@ -6,7 +6,9 @@ import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_main.*
 import okhttp3.*
+import retrofit2.Retrofit
 import java.io.IOException
+
 
 class MainActivity : AppCompatActivity() {
     val checklist: ArrayList<String> = ArrayList()
@@ -20,17 +22,18 @@ class MainActivity : AppCompatActivity() {
 
     }
     fun fetchjson(){
-        val url="https://hacker-news.firebaseio.com/v0/item/8863.json?print=pretty"
+        val url="https://hacker-news.firebaseio.com/"
         val requests=Request.Builder().url(url).build()
         val client=OkHttpClient()
+        val retrofit=Retrofit.Builder().baseUrl(url).build()
         client.newCall(requests).enqueue(object :Callback{
             override fun onFailure(call: Call, e: IOException) {
-            Log.d("Failure","Actvity failed")
+            Log.d("MainActivity","Actvity failed")
             }
 
             override fun onResponse(call: Call, response: Response) {
                 val result= response.body?.string()
-                Log.d("Failure","$result")
+                Log.d("MainActivity","Success $retrofit\n $result")
             }
 
         })
